@@ -1,88 +1,81 @@
 classDiagram
+    class IVendingMachine {
+        <<interface>>
+        + insertCoin(int coin) void
+        + getBalance() int
+        + purchaseProduct(int productId) Product
+        + returnChange() int
+        + getProducts() List~Product~
+    }
+
     class Product {
-        -int id
-        -String name
-        -int price
-        -String quantity
-        +Product(int id, String name, int price, String quantity)
-        +getId() int
-        +getName() String
-        +getPrice() int
-        +getQuantity() String
-        +setName(String name) void
-        +setPrice(int price) void
-        +setQuantity(String quantity) void
-        +reduceQuantity() void
-        +getDescription() String*
-        +toString() String
+        <<abstract>>
+        # int id
+        # String name
+        # int price
+        # int quantity
+        + Product(int, String, int, int)
+        + getId() int
+        + getName() String
+        + getPrice() int
+        + getQuantity() int
+        + reduceQuantity() void
+        + getDescription() String*
     }
 
     class Beverage {
-        -int milliliters
-        +Beverage(int id, String name, int price, int quantity, int milliliters)
-        +getDescription() String
+        - int milliliters
+        + Beverage(int, String, int, int, int)
+        + getDescription() String
     }
 
     class Fruit {
-        -boolean isOrganic
-        +Fruit(int id, String name, int price, int quantity, boolean isOrganic)
-        +getDescription() String
+        - boolean isOrganic
+        + Fruit(int, String, int, int, boolean)
+        + getDescription() String
     }
 
     class Snack {
-        -boolean isVegan
-        +Snack(int id, String name, int price, int quantity, boolean isVegan)
-        +getDescription() String
-    }
-    class IVendingMachine {
-        <<interface>>
-        +insertCoin(int coin) void
-        +getBalance() int
-        +purchaseProduct(int productId) Product
-        +returnChange() int
-        +getProducts() List~Product~
+        - boolean isVegan
+        + Snack(int, String, int, int, boolean)
+        + getDescription() String
     }
 
     class VendingMachineImpl {
-        -int balance
-        -List~Product~ products
-        -int[] validCoins
-        +VendingMachineImpl(List~Product~ initialProducts)
-        +insertCoin(int coin) void
-        +getBalance() int
-        +purchaseProduct(int productId) Product
-        +returnChange() int
-        +getProducts() List~Product~
-        -isValidCoin(int coin) boolean
-    }
-
-    class GetUserChoice {
-        +getInt(Scanner scanner, String prompt) int
-    }
-
-    class MenuHandler {
-        -Scanner scanner
-        +MenuHandler(Scanner scanner)
-        +displayMainMenu() void
+        - int balance
+        - List~Product~ products
+        - int[] validCoins
+        + VendingMachineImpl(List~Product~)
+        + insertCoin(int) void
+        + getBalance() int
+        + purchaseProduct(int) Product
+        + returnChange() int
+        + getProducts() List~Product~
     }
 
     class Main {
-        -Scanner scanner
-        -MenuHandler menuHandler
-        -IVendingMachine machine
-        +main(String[] args) void
-        -setupVendingMachine() void
-        -displayProducts() void
-        -handleInsertCoin() void
-        -handlePurchase() void
+        - Scanner scanner
+        - MenuHandler menuHandler
+        - IVendingMachine machine
+        + main(String[]) void
     }
 
-    Product <|-- Beverage : extends
-    Product <|-- Fruit : extends
-    Product <|-- Snack : extends
-    IVendingMachine <|.. VendingMachineImpl : implements
+    class MenuHandler {
+        - Scanner scanner
+        + MenuHandler(Scanner)
+        + displayMainMenu() void
+    }
+
+    class GetUserChoice {
+        + getInt(Scanner, String) int
+    }
+
+    Product <|-- Beverage
+    Product <|-- Fruit
+    Product <|-- Snack
+    IVendingMachine <|.. VendingMachineImpl
     VendingMachineImpl --> Product : contains
-    MenuHandler --> GetUserChoice : uses
+    Main --> IVendingMachine : uses
     Main --> MenuHandler : creates
     Main --> GetUserChoice : uses
-    Main --> IVendingMachine : uses
+    MenuHandler --> Scanner : uses
