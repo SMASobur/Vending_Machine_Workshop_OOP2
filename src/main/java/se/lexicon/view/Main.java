@@ -17,7 +17,7 @@ public class Main {
     private static IVendingMachine machine;
 
 
-    static void main() {
+    public static void main(String[] args) {
         // Setup initial products
         setupVendingMachine();
 
