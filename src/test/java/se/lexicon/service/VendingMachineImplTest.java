@@ -122,4 +122,23 @@ class VendingMachineImplTest {
         // Then: quantity stays 0
         assertEquals(0, product.getQuantity());
     }
+
+    // Test Case 6 — Return Change Resets Balance
+    @Test
+    void testReturnChangeResetsBalance() {
+        // Given: balance = 50
+        vendingMachine.insertCoin(20);
+        vendingMachine.insertCoin(20);
+        vendingMachine.insertCoin(10);
+        assertEquals(50, vendingMachine.getBalance());
+
+        // When: returnChange()
+        int change = vendingMachine.returnChange();
+
+        // Then: returned value = 50
+        assertEquals(50, change);
+
+        // Then: balance becomes 0
+        assertEquals(0, vendingMachine.getBalance());
+    }
 }
